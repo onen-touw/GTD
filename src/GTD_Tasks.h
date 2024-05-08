@@ -61,7 +61,18 @@ void /*IRAM_ATTR*/ GTD_Task_GlowPlug_Test(){
 
 
 // Проверка насоса на свече
-void /*IRAM_ATTR*/ GTD_Task_FuelStarterPump_Test(){
+void /*IRAM_ATTR*/ GTD_Task_FuelStarterValve_Test(){
+     while (true)
+    {
+        /* code */
+
+        delay(200); // for a while  (this delay is neccesary for yeild)
+    }
+    vTaskDelete(NULL);
+}
+
+// Проверка насоса на свече
+void /*IRAM_ATTR*/ GTD_Task_FuelValve_Test(){
      while (true)
     {
         /* code */

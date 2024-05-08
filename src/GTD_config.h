@@ -18,8 +18,8 @@
 
 #define GTD_PCA9685_CHANEL_PWR_EN                   0
 #define GTD_PCA9685_CHANEL_GLOW_PLUG_DRIVER         1
-#define GTD_PCA9685_CHANEL_MAIN_FUEL                3
-#define GTD_PCA9685_CHANEL_START_FUEL_PUMP          4           ///????
+#define GTD_PCA9685_CHANEL_MAIN_FUEL_VALVE          3
+#define GTD_PCA9685_CHANEL_START_FUEL_VALVE         4           ///????
 #define GTD_PCA9685_CHANEL_FUEL_PUMP                5
 #define GTD_PCA9685_CHANEL_STARTER                  6
 #define GTD_PCA9685_CHANEL_LED_R                    7
@@ -44,6 +44,7 @@ enum GTD_TUSKS {
     TEST_FUEL_PUMP,
     TEST_STARTER,
     TEST_GLOW_PLUG,
-    TEST_FUEL_STARTER_PUMP,
+    TEST_FUEL_STARTER_VALVE,
+    TEST_FUEL_VALVE,
     MAIN,
 };
