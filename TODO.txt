@@ -1,0 +1,4 @@
+TODO1 - OTA ON WIFI AP
+TODO2 - Check own lib wrapper (GTD_Device_Bme280, GTD_Device_Pca9685)
+TODO3 - Add own lib wrapper for INA219, Hall sensor
+TODO4 - Check if part.tbl works fine 
