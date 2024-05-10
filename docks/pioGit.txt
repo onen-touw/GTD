@@ -1,0 +1,1 @@
+https://github.com/platformio/platform-espressif32/blob/master/examples/espidf-storage-sdcard/src/sd_card_example_main.c

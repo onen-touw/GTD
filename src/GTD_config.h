@@ -1,5 +1,24 @@
 #pragma once
 
+#include "Arduino.h"
+#include"Wire.h"
+
+#define USING_WIFI      
+
+#ifdef USING_WIFI
+enum GTD_WiFiMode : uint8_t {
+    AUTO = 0,
+    STA,
+    DEVICE,
+};
+GTD_WiFiMode WiFiMode = AUTO;
+
+
+#define MAX_CONNECTION                              (int (1))
+#define LIMIT_WiFi_DEVICE_CONNETION_TIME            ((uint64_t)10000) //(ms)  == 10 sec
+
+#endif
+
 
 #define GTD_PIN_HALL_SENSOR                         25
 #define GTD_PIN__I2C_SOFTWARE_SCL                   26
@@ -8,7 +27,7 @@
 
 
 // I2C адреса датчиков 
-#define GTD_DEVICE_PCA9685                          0
+#define GTD_DEVICE_PCA9685                          0x40
 #define GTD_DEVICE_INA_1_ADDR                       0
 #define GTD_DEVICE_INA_2_ADDR                       0
 #define GTD_DEVICE_BME280_ADDR                      0
@@ -27,10 +46,7 @@
 #define GTD_PCA9685_CHANEL_LED_G                    9
 #define GTD_PCA9685_CHANEL_LED_B                    10
 
-enum GTD_WiFiMode {
-    STA,
-    DEVICE,
-};
+
 
 
 // #define GTD_BME_REG_MAP 0
@@ -49,6 +65,7 @@ enum GTD_TASKS_ID : uint8_t {
     TEST_GLOW_PLUG,
     TEST_FUEL_STARTER_VALVE,
     TEST_FUEL_VALVE,
+    WIFI,
     MAIN,
 };
 
