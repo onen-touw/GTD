@@ -176,50 +176,36 @@ void /*IRAM_ATTR*/ GTD_Task_Main(void *arg)
 
 #ifdef USING_WIFI
 
-// #if WiFiMode == AUTO 
-const char *ssid = "TP-Link_2722";
-const char *password = "89565544";
-const char *ssidAp = "esp32";
-const char *passwordAp = "12345678";
-IPAddress local_ip(192, 168, 2, 1);
-IPAddress gateway(192, 168, 2, 1);
-IPAddress subnet(255, 255, 255, 0);
-// #endif
+// void /*IRAM_ATTR*/ GTD_Task_WiFi(void *arg)
+// {
+//     GTD_SendToFunckMinimal *data = (GTD_SendToFunckMinimal *)arg;
 
-void /*IRAM_ATTR*/ GTD_Task_WiFi(void *arg)
-{
-    GTD_SendToFunckMinimal *data = (GTD_SendToFunckMinimal *)arg;
+//     WiFi.begin(ssid, password);
+//     uint64_t time = millis();
+//     while (WiFi.status() != WL_CONNECTED && (millis() - time < LIMIT_WiFi_DEVICE_CONNETION_TIME))
+//     {
+//         Serial.print(".");
+//         log_d("GTD_WiFi", ".");
+//         delay(100);
+//     }
+//     log_d("GTD_WiFi", "\n");
 
-    WiFi.begin(ssid, password);
-    uint64_t time = millis();
-    while (WiFi.status() != WL_CONNECTED && (millis() - time < LIMIT_WiFi_DEVICE_CONNETION_TIME))
-    {
-        Serial.print(".");
-        log_d("GTD_WiFi", ".");
-        delay(100);
-    }
-    log_d("GTD_WiFi", "\n");
+//     if (WiFi.status() != WL_CONNECTED)
+//     {
+//         ESP_LOGW ("GTD_WiFi", "LOG::WiFi DEVICE INITIALIZATION ERROE\n");
+//         WiFi.softAP(ssidAp, passwordAp, 1, 0, MAX_CONNECTION);
 
-    if (WiFi.status() != WL_CONNECTED)
-    {
-        ESP_LOGW ("GTD_WiFi", "LOG::WiFi DEVICE INITIALIZATION ERROE\n");
-        WiFi.softAP(ssidAp, passwordAp, 1, 0, MAX_CONNECTION);
-
-    }else{
-        ESP_LOGW ("GTD_WiFi", "LOG::WiFi DEVICE INITIALIZED\n");
-    }
-
-
-    
-
-    // while (true)
-    {
-        /* code */
-        Serial.println("WiFi task");
-        delay(data->updTime); // (this delay is neccesary for yeild)
-    }
-    vTaskDelete(NULL);
-    delete data;
-}
+//     }else{
+//         ESP_LOGW ("GTD_WiFi", "LOG::WiFi DEVICE INITIALIZED\n");
+//     }
+//     // while (true)
+//     {
+//         /* code */
+//         Serial.println("WiFi task");
+//         delay(data->updTime); // (this delay is neccesary for yeild)
+//     }
+//     vTaskDelete(NULL);
+//     delete data;
+// }
 
 #endif

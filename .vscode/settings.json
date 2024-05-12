@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "gtd_config.h": "c"
+        "gtd_config.h": "c",
+        "*.tcc": "cpp"
     }
 }

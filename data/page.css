@@ -1,0 +1,92 @@
+html {
+  font-family: Helvetica;
+  display: inline-block;
+  margin: 0px auto;
+  text-align: center;
+}
+
+.c_R {
+  background-color: red;
+  color: black;
+}
+
+.c_G {
+  background-color: green;
+  color: black;
+}
+
+.c_gry {
+  background-color: gray;
+  color: white;
+}
+
+
+.body {}
+
+.d_t_wr {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.d_t {
+  margin: 10px;
+  min-width: 100px;
+  min-height: 40px;
+  display: flex;
+  border: solid 2px black;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.d_t_it {
+  margin: 0 2px;
+}
+
+.b_wr {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  height: auto;
+  justify-content: center;
+}
+
+.b_e {
+  margin: 2px 5px;
+  border: solid 2px black;
+  border-radius: 5px;
+  padding: 2px;
+}
+.b_e :hover{
+background-color: aqua;
+}
+
+
+.cnsl_wr {
+  width: 100%;
+  border: solid 2px black;
+  border-radius: 10px;
+  max-height: 200px;
+  min-height: 100px;
+  margin-top: 20px;
+  scrollbar-width: 5px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cnsl_l{
+  width:90% ;
+  display: flex;
+  flex-direction: row;
+}
+
+.snsl_t{
+  color: black;
+  margin: 1px;  
+}

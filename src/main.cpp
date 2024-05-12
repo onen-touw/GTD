@@ -1,66 +1,46 @@
-// #include "GTD_Tasks.h"
 
-// #include "Adafruit_PWMServoDriver.h"
-#include <Wire.h>
+#include "GTD_config.h"
+#include "GTD_FileData.h"
+
+#ifdef USING_OTA
+#include "GTD_OTA.h"
+#endif
+
+#ifdef USING_WIFI
+#include "GTD_WiFi.h"
+#endif
+
+#ifdef USING_ASWSERVER
+#include "GTD_ASWServer.h"
+#endif
+
+
+
+
 #include "Adafruit_BME280.h"
 
-#include <WiFi.h>
-#include <ArduinoOTA.h>
-#define SEALEVELPRESSURE_HPA (1013.25)
-const char *ssid = "KULON";
-const char *password = "1Qwertyuiop";
+
 // Adafruit_PWMServoDriver pca9685;
+volatile int data__ = 0;
 Adafruit_BME280 bme;
+
+
+
+
+
+int32_t ti = 0;
 
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("Booting");
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
-    while (WiFi.waitForConnectResult() != WL_CONNECTED)
-    {
-        Serial.println("Connection Failed! Rebooting...");
-        delay(5000);
-        ESP.restart();
-    }
+    GTD_FileInit();
+    GTD_FileList();
+   
+    GTD_WiFi_Init();
+    GTD_ASWS_Init();
 
-    ArduinoOTA
-        .onStart([]()
-                 {
-      String type;
-      if (ArduinoOTA.getCommand() == U_FLASH) {
-        type = "sketch";
-      } else {  // U_SPIFFS
-        type = "filesystem";
-      }
+    // GTD_OTA_init();
 
-      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
-      Serial.println("Start updating " + type); })
-        .onEnd([]()
-               { Serial.println("\nEnd"); })
-        .onProgress([](unsigned int progress, unsigned int total)
-                    { Serial.printf("Progress: %u%%\r", (progress / (total / 100))); })
-        .onError([](ota_error_t error)
-                 {
-      Serial.printf("Error[%u]: ", error);
-      if (error == OTA_AUTH_ERROR) {
-        Serial.println("Auth Failed");
-      } else if (error == OTA_BEGIN_ERROR) {
-        Serial.println("Begin Failed");
-      } else if (error == OTA_CONNECT_ERROR) {
-        Serial.println("Connect Failed");
-      } else if (error == OTA_RECEIVE_ERROR) {
-        Serial.println("Receive Failed");
-      } else if (error == OTA_END_ERROR) {
-        Serial.println("End Failed");
-      } });
-
-    ArduinoOTA.begin();
-
-    Serial.println("Ready");
-    Serial.print("IP address: ");
-    Serial.println(WiFi.localIP());
 
     // Wire.setPins(27, 26);
     // pca9685 = Adafruit_PWMServoDriver(0x40, Wire);
@@ -81,33 +61,41 @@ void setup()
 
     // GTD_CreateTask(GTD_TASKS_ID::MAIN);
     // GTD_CreateTask(GTD_TASKS_ID::WIFI);
+
+    
 }
-void printValues()
-{
-    Serial.print("Temperature = ");
-    Serial.print(bme.readTemperature());
-    Serial.println(" *C");
+// void printValues()
+// {
+//     Serial.print("Temperature = ");
+//     Serial.print(bme.readTemperature());
+//     Serial.println(" *C");
 
-    Serial.print("Pressure = ");
-    Serial.print(bme.readPressure() / 100.0F);
-    Serial.println(" hPa");
+//     Serial.print("Pressure = ");
+//     Serial.print(bme.readPressure() / 100.0F);
+//     Serial.println(" hPa");
 
-    Serial.print("Approx. Altitude = ");
-    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-    Serial.println(" m");
+//     Serial.print("Approx. Altitude = ");
+//     Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+//     Serial.println(" m");
 
-    Serial.print("Humidity = ");
-    Serial.print(bme.readHumidity());
-    Serial.println(" %");
+//     Serial.print("Humidity = ");
+//     Serial.print(bme.readHumidity());
+//     Serial.println(" %");
 
-    Serial.println();
-}
+//     Serial.println();
+// }
+
 void loop()
 {
-    ArduinoOTA.handle();
+    GTD_OTA_handle();
 
-    Serial.println("OTAWorks normal");
-
+    ++data__;
+    if (millis() - ti > 5000)
+    {
+        // ASWS_SendClient(getSensorReadings());
+        ti = millis();
+    }
+    delay(1000);
     // if (Serial.available() > 1)
     // {
     //     char key = Serial.read();
@@ -138,8 +126,6 @@ void loop()
 // #include <ESPmDNS.h>
 // #include <NetworkUdp.h>
 
-
-
 // void setup()
 // {
 
@@ -156,4 +142,3 @@ void loop()
 //     // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
 //     // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
 // }
-
