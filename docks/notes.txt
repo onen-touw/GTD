@@ -1,0 +1,21 @@
+Изменена partition table на minimal.csv см ini файл
+Сейчас размер flash памяти 1mb (как делать больше см. ниже)
+
+Доступные варианты таблиц хранятся в папке:
+    C:\Users\anton_rn3y43d\.platformio\packages\framework-arduinoespressif32\tools\partitions
+    из этого следует:
+        1) создавать таблицы МОЖНО!, но сохранять их надо в эту папку;
+        2) папка НЕ зависит от проекта.
+
+Особенности создания таблиц:
+    1) размер Flash памяти задается типом app в partition table;
+    2) SPIFFS тоже селится во Flash памяти, но его размер трактуется отдельно;
+    3) Также SPIFFS-у необходимы следующие теги: 
+        data(type),	spiffs(subtype) // подробнее см. partition_table.csv в корневой папке проекта;  
+    4) coredump - видимо тут хранится билд кода, необходимые теги:
+     	data(type),	coredump(subtype);
+    5) Размер и начало каждого поля таблицы выравнивается (как именно читать тут https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/partition-tables.html)
+    6) после создания таблиц необходмо сделать операцию erase flash в .pio инструментах,
+        так как автоматически память не очищается => выкидывается ошибка (E (379)esp_core_dump_flash ncorrect core dump image).
+    7) после необходмо загрузить статические файлы/данные (SPIFFS data: html, css, js etc.);
+    8) после заливается прошивка.

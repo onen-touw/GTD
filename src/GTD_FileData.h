@@ -1,9 +1,14 @@
 #pragma once
+
 #include "FS.h"
 #include "SPIFFS.h"
 #include "GTD_config.h"
 
 #define FORMAT_SPIFFS_IF_FAILED true
+
+bool GTD_FileInit(){
+    return SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED);
+}
 
 int8_t GTD_FileCount()
 {
@@ -24,6 +29,30 @@ int8_t GTD_FileCount()
     file.close();
 
     return count;
+}
+
+bool GTD_FileList()
+{
+    File root = SPIFFS.open("/");
+    if (!root)
+    {
+        return false;
+    }
+    if (!root.isDirectory())
+    {
+        return false;
+    }
+
+    File file = root.openNextFile();
+    while (file)
+    {
+        Serial.print("  FILE: ");
+        Serial.print(file.name());
+        Serial.print("\tSIZE: ");
+        Serial.println(file.size());
+        file = root.openNextFile();
+    }
+    return true;
 }
 
 GTD_SUCCESS_CODE GTD_FileRead(const char *path, String &Buffer)

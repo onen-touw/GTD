@@ -1,0 +1,3 @@
+https://github.com/platformio/platform-espressif32/blob/master/examples/espidf-storage-sdcard/src/sd_card_example_main.c
+
+basic OTA - https://github.com/JakubAndrysek/BasicOTA-ESP32-library/blob/master/src/BasicOTA.cpp

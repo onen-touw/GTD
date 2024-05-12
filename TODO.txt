@@ -1,0 +1,7 @@
+TODO1 - OTA ON WIFI AP
+TODO2 - Check correct work of own lib wrapper (GTD_Device_Bme280, GTD_Device_Pca9685)
+TODO3 - Add own lib wrapper for INA219, Hall sensor
+==READY== TODO4 - Check if part.tbl works fine 
+    работает отлично, но нужно увеличить размер flash памяти (TODO5)
+TODO5 - увеличить размер Flash памяти (прикинуть размер статики и подогнать под него размер SPIFFS)
+    возможно подойдет одна из готовых таблиц (min_spiffs) (вся инфа в docks/notes.txt)
