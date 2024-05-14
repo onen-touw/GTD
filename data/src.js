@@ -1,15 +1,11 @@
 var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
-// Init web socket when the page loads
 window.addEventListener('load', function () {
     initWebSocket();
     $('.b_e').each(function (i) {
         $(this).on('click', function (e) {
             console.log('mama', i);
-            
-
-            websocket.send("getReadings"+toString(i));
         });
     });
 
@@ -20,14 +16,19 @@ window.addEventListener('load', function () {
     });
 });
 
+const formElement = document.getElementById('form1'); // извлекаем элемент формы
+formElement.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(formElement); // создаём объект FormData, передаём в него элемент формы
+    // теперь можно извлечь данные
+    const val = String(formData.get('name'));
+    // const siz = String(val.length);
+    var dataToSend = val + ';!';
+    websocket.send(dataToSend);
+    console.log(dataToSend);
+    formElement.reset();
 
-function onload(event) {
-    initWebSocket();
-}
-
-function getReadings() {
-    websocket.send("getReadings");
-}
+});
 
 function initWebSocket() {
     console.log('Trying to open a WebSocket connection…');
@@ -37,10 +38,8 @@ function initWebSocket() {
     websocket.onmessage = onMessage;
 }
 
-// When websocket is established, call the getReadings() function
 function onOpen(event) {
     console.log('Connection opened');
-    getReadings();
 }
 
 function onClose(event) {
@@ -48,12 +47,31 @@ function onClose(event) {
     setTimeout(initWebSocket, 2000);
 }
 
-// Function that receives the message from the ESP32 with the readings
 function onMessage(event) {
     console.log("recieved:");
     console.log(event.data);
-    var keys = 'temperature';
-    document.getElementById(keys).innerHTML = event.data;
+    var dataArray = String(event.data).split(';');
+    dataArray.forEach(function (item) {
+        var key = '';
+        switch (item[0]) {
+            case 'T':
+                key = 'tempID';
+                break;
+            case 'P':
+                key = 'presID';
+                break;
+            case 'H':
+                key = 'humID';
+                break;
+            default:
+                break;
+        }
+        document.getElementById(key).innerHTML = item.substring(1, item.length);
+        var hash = '#' + key;
+        $(hash).text(item.substring(1, item.length));
+    });
+
+
 }
 
 

@@ -1,4 +1,3 @@
-
 #include "GTD_config.h"
 #include "GTD_FileData.h"
 
@@ -14,131 +13,77 @@
 #include "GTD_ASWServer.h"
 #endif
 
+#include "GTD_Device_Pca9685.h"
+#include "Adafruit_INA219.h"
+// #include "GTD_Device_Bme280.h"
+// #include "Adafruit_BME280.h"
 
-
-
-#include "Adafruit_BME280.h"
-
-
-// Adafruit_PWMServoDriver pca9685;
-volatile int data__ = 0;
-Adafruit_BME280 bme;
-
-
-
-
-
+GTD_Device_Pca9685 pca(GTD_DEVICE_PCA9685);
+Adafruit_INA219 INA(0x44);
+// Adafruit_BME280 bme;
 int32_t ti = 0;
 
 void setup()
 {
+
     Serial.begin(115200);
     GTD_FileInit();
     GTD_FileList();
-   
     GTD_WiFi_Init();
     GTD_ASWS_Init();
 
-    // GTD_OTA_init();
+#ifdef USING_OTA
+    GTD_OTA_init();
+#endif
 
-
-    // Wire.setPins(27, 26);
-    // pca9685 = Adafruit_PWMServoDriver(0x40, Wire);
-    // pca9685.begin();
-
-    // if(!bme.begin(0x76, &Wire))
+    Wire.setPins(GTD_PIN__I2C_SOFTWARE_SDA, GTD_PIN__I2C_SOFTWARE_SCL);
+    // if (!bme.begin(0x77, &Wire))
     // {
-    //     Serial.println("ERRROR");
+    //     Serial.println("ERROR");
     // }
+    if (INA.begin(&Wire))
+    {
+        Serial.println("INA ERROR");
+    }
 
-    // pca9685.setPWMFreq(50);
-    // int pwm0 = map(90, 0, 1000, 80, 2000);
-
-    // pca9685.setPin(7, 4096);
-    // pca9685.setPin(8, 4096);
-    // pca9685.setPin(9, 4096);
-    // pca9685.setPin(10, 4096);
+    pca.begin(Wire);
+    pca.setPWMFreq(50);
+    ASWS_FromWS = [&](int chanel, int pwm)
+    {
+        pwm = constrain(pwm, 0, 4096);
+        // pwm = map(pwm, 1000, 2000, 4096/2, 4096);
+        pca.setPin(chanel, pwm);
+    };
 
     // GTD_CreateTask(GTD_TASKS_ID::MAIN);
     // GTD_CreateTask(GTD_TASKS_ID::WIFI);
-
-    
 }
-// void printValues()
-// {
-//     Serial.print("Temperature = ");
-//     Serial.print(bme.readTemperature());
-//     Serial.println(" *C");
-
-//     Serial.print("Pressure = ");
-//     Serial.print(bme.readPressure() / 100.0F);
-//     Serial.println(" hPa");
-
-//     Serial.print("Approx. Altitude = ");
-//     Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-//     Serial.println(" m");
-
-//     Serial.print("Humidity = ");
-//     Serial.print(bme.readHumidity());
-//     Serial.println(" %");
-
-//     Serial.println();
-// }
 
 void loop()
 {
+#ifdef USING_OTA
     GTD_OTA_handle();
+#endif
 
-    ++data__;
     if (millis() - ti > 5000)
     {
-        // ASWS_SendClient(getSensorReadings());
-        ti = millis();
+        Serial.println(INA.getBusVoltage_V());
+        Serial.println(INA.getCurrent_mA());
+        Serial.println(INA.getShuntVoltage_mV());
+        Serial.println(INA.getPower_mW());
     }
-    delay(1000);
-    // if (Serial.available() > 1)
-    // {
-    //     char key = Serial.read();
-    //     int val = Serial.parseInt();
-    //     switch (key)
-    //     {
-    //     case 'R':
-    //         Serial.print("R typed\n");
-
-    //         val =  constrain(val, 0, 4096);
-    //         pca9685.setPin(7, val);
-    //         pca9685.setPin(8, val);
-    //         pca9685.setPin(9, val);
-    //         pca9685.setPin(10, val);
-
-    //         break;
-    //     }
+    //     ti = millis();
+    //     // bme.readTemperature();
+    //     // String _data = "T"
+    //     // + String(bme.readTemperature())
+    //     // + ";"
+    //     // + "P"
+    //     // + String(bme.readPressure())
+    //     // + ";"
+    //     // + "H"
+    //     // + String(bme.readHumidity())
+    //     // + ";";
+    //     // ASWS_SendClient(_data);
     // }
-
-    //   printValues();
-    // Serial.println(digitalRead(25));
-    // Serial.println(analogRead(25));
-    // Serial.println(hallRead());
-    // Serial.println("============");
-    //   delay(5);
+    delay(1000);
 }
-
-// #include <ESPmDNS.h>
-// #include <NetworkUdp.h>
-
-// void setup()
-// {
-
-//     // Port defaults to 3232
-//     // ArduinoOTA.setPort(3232);
-
-//     // Hostname defaults to esp3232-[MAC]
-//     // ArduinoOTA.setHostname("myesp32");
-
-//     // No authentication by default
-//     // ArduinoOTA.setPassword("admin");
-
-//     // Password can be set with it's md5 value as well
-//     // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
-//     // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
-// }

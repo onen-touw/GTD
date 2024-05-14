@@ -1,4 +1,6 @@
+#pragma once
 #include "GTD_config.h"
+#include "GTD_I2C_Minimal.h"
 
 enum {
   BME280_REGISTER_DIG_T1 = 0x88,

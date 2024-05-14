@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "gtd_config.h": "c",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "atomic": "cpp",
+        "cstdint": "cpp",
+        "esp_err.h": "c",
+        "esp_intr_alloc.h": "c",
+        "freertos.h": "c"
     }
 }

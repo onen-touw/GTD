@@ -1,4 +1,5 @@
 
+#pragma once
 #include "GTD_Device_Bme280Config.h"
 #include "GTD_I2C_Minimal.h"
 
@@ -61,12 +62,13 @@ public:
     bool begin(uint8_t addr = BME280_ADDRESS, TwoWire *theWire = &Wire)
     {
         if (i2c)
-            delete i2c;
+            {delete i2c;}
         i2c = new GTD_I2C_Minimal(addr, theWire);
         if (!i2c->begin())
         {
             return false;
         }
+        return init();
     }
 
     bool init()

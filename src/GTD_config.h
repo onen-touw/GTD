@@ -3,9 +3,9 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define USING_OTA 1
-#define USING_WIFI 1
-#define USING_ASWSERVER 1
+// #define USING_OTA
+#define USING_WIFI
+#define USING_ASWSERVER
 
 
 
@@ -16,10 +16,10 @@
     #define WF_MODE_AP      2
     #define WF_MODE_AUTO    3
 
-    #define GTD_WIFI_NET_NAME   ((const char*)"TP-Link_2722")
-    #define GTD_WIFI_NET_PASS   ((const char*)"89565544")
-    // #define GTD_WIFI_NET_NAME   ((const char*)"KULON")
-    // #define GTD_WIFI_NET_PASS   ((const char*)"1Qwertyuiop")
+    // #define GTD_WIFI_NET_NAME   ((const char*)"TP-Link_2722")
+    // #define GTD_WIFI_NET_PASS   ((const char*)"89565544")
+    #define GTD_WIFI_NET_NAME   ((const char*)"KULON")
+    #define GTD_WIFI_NET_PASS   ((const char*)"1Qwertyuiop")
     
     #define GTD_WIFI_OWN_NAME   ((const char*)"GTD_ESP32")
     #define GTD_WIFI_OWN_PASS   ((const char*)"12345678")
@@ -54,7 +54,7 @@
 #define GTD_DEVICE_PCA9685 0x40
 #define GTD_DEVICE_INA_1_ADDR 0
 #define GTD_DEVICE_INA_2_ADDR 0
-#define GTD_DEVICE_BME280_ADDR 0x76
+#define GTD_DEVICE_BME280_ADDR 0x77
 
 #define GTD_PCA9685_CHANEL_PWR_EN 0
 #define GTD_PCA9685_CHANEL_GLOW_PLUG_DRIVER 1

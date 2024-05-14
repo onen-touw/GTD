@@ -20,9 +20,6 @@ html {
   color: white;
 }
 
-
-.body {}
-
 .d_t_wr {
   display: flex;
   flex-wrap: wrap;
@@ -89,4 +86,9 @@ background-color: aqua;
 .snsl_t{
   color: black;
   margin: 1px;  
+}
+
+.f_w{
+  width: 100%;
+  height: auto;
 }
