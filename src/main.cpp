@@ -14,18 +14,25 @@
 #endif
 
 #include "GTD_Device_Pca9685.h"
-#include "Adafruit_INA219.h"
+// #include "Adafruit_INA219.h"
 // #include "GTD_Device_Bme280.h"
-// #include "Adafruit_BME280.h"
+#include "Adafruit_BME280.h"
+// #include"Adafruit_INA219.h"
+#include "INA219.h"
+
+#define SHUNT_MAX_V 0.1 /* Rated max for our shunt is 75mv for 50 A current: \
+                            we will mesure only up to 20A so max is about 75mV*20/50 lets put some more*/
+#define BUS_MAX_V 12.6  /* with 12v lead acid battery this should be enough*/
+#define MAX_CURRENT 20  /* In our case this is enaugh even shunt is capable to 50 A*/
+#define SHUNT_R 0.005   /* Shunt resistor in ohm */
 
 GTD_Device_Pca9685 pca(GTD_DEVICE_PCA9685);
-Adafruit_INA219 INA(0x44);
-// Adafruit_BME280 bme;
+INA219 INA(0x41);
+Adafruit_BME280 bme;
 int32_t ti = 0;
 
 void setup()
 {
-
     Serial.begin(115200);
     GTD_FileInit();
     GTD_FileList();
@@ -37,21 +44,44 @@ void setup()
 #endif
 
     Wire.setPins(GTD_PIN__I2C_SOFTWARE_SDA, GTD_PIN__I2C_SOFTWARE_SCL);
-    // if (!bme.begin(0x77, &Wire))
-    // {
-    //     Serial.println("ERROR");
-    // }
-    if (INA.begin(&Wire))
+    delay(200);
+    if (!bme.begin(0x76, &Wire))
+    {
+        Serial.println("ERROR");
+    }
+    delay(200);
+    if (INA.begin())
     {
         Serial.println("INA ERROR");
     }
-
+    delay(200);
     pca.begin(Wire);
     pca.setPWMFreq(50);
+    for (size_t i = 0; i < 15; ++i)
+    {
+        pca.setPin(i, 0);
+    }
+    delay(200);
+    INA.calibrate(SHUNT_R, SHUNT_MAX_V, BUS_MAX_V, MAX_CURRENT);
+    delay(200);
     ASWS_FromWS = [&](int chanel, int pwm)
     {
+        if (chanel > 15)
+        {
+            for (size_t i = 0; i < 15; ++i)
+            {
+                pca.setPin(i, 4096);
+            }
+        }
+        else if (chanel < 0)
+        {
+            for (size_t i = 0; i < 15; ++i)
+            {
+                pca.setPin(i, 0);
+            }
+        }
+
         pwm = constrain(pwm, 0, 4096);
-        // pwm = map(pwm, 1000, 2000, 4096/2, 4096);
         pca.setPin(chanel, pwm);
     };
 
@@ -65,25 +95,13 @@ void loop()
     GTD_OTA_handle();
 #endif
 
-    if (millis() - ti > 5000)
+    if (millis() - ti > 1000)
     {
-        Serial.println(INA.getBusVoltage_V());
-        Serial.println(INA.getCurrent_mA());
-        Serial.println(INA.getShuntVoltage_mV());
-        Serial.println(INA.getPower_mW());
+        String _data = "T" + String(bme.readTemperature()) + ";" + "P" + String(bme.readPressure()) + ";" + "H" + String(bme.readHumidity()) + ";" + "V" + String(INA.busVoltage()) + ";" + "I" + String(INA.shuntCurrent()) + ";" + "v" + String(INA.shuntVoltage()) + ";" + "W" + String(INA.busPower()) + ";";
+        _data += digitalRead(36);
+        _data += ";";
+        _data += digitalRead(39);
+        ASWS_SendClient(_data);
     }
-    //     ti = millis();
-    //     // bme.readTemperature();
-    //     // String _data = "T"
-    //     // + String(bme.readTemperature())
-    //     // + ";"
-    //     // + "P"
-    //     // + String(bme.readPressure())
-    //     // + ";"
-    //     // + "H"
-    //     // + String(bme.readHumidity())
-    //     // + ";";
-    //     // ASWS_SendClient(_data);
-    // }
     delay(1000);
 }

@@ -23,3 +23,6 @@
 
 *) Настройка файла конфигурации:
     https://docs.platformio.org/page/projectconf.html
+
+*) Переписанные и понятный datasheet for INA219
+    https://how2electronics.com/how-to-use-ina219-dc-current-sensor-module-with-arduino/

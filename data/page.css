@@ -1,10 +1,39 @@
+.mn{
+  margin: 0 0;
+}
 html {
   font-family: Helvetica;
   display: inline-block;
-  margin: 0px auto;
+  margin: 0px;
   text-align: center;
+  width: 100%;
 }
 
+.hd{
+  position: absolute;
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  background-color: rgb(164, 213, 255);
+}
+.hd_wr{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+.hn{
+  margin: 10px;
+}
+.srcl{
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+}
 .c_R {
   background-color: red;
   color: black;
@@ -26,6 +55,7 @@ html {
   justify-content: center;
   width: 100%;
   height: auto;
+  margin: 60px;
 }
 
 .d_t {

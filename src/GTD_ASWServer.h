@@ -69,6 +69,7 @@ void ASWS_OnEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEvent
     {
     case WS_EVT_CONNECT:
         Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
+        // client.
         break;
     case WS_EVT_DISCONNECT:
         Serial.printf("WebSocket client #%u disconnected\n", client->id());
@@ -87,6 +88,8 @@ void GTD_ASWS_Init()
     socket.onEvent(ASWS_OnEvent);
 
     server.addHandler(&socket);
+
+    
 
     server.on("/", HTTP_GET,
               [](AsyncWebServerRequest *request)
