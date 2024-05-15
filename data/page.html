@@ -11,43 +11,49 @@
     <link rel="stylesheet" href="page.css">
 </head>
 
-<body>
-    <h1>GTD Control program</h1>
+<body class="mn">
+    <div class="hd">
+        <div class="hd_wr">
+            <h1 class="hn">GTD Control program</h1>
+            <div class="srcl" id="sttus"></div>
+        </div>
+    </div>
+    
     <div class="d_t_wr">
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Tempreture: </div>
+            <div class="d_t_it" id="tempID">0</div>
+            <div class="d_t_it"> Celc </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Presure:</div>
+            <div class="d_t_it" id="presID">0</div>
+            <div class="d_t_it"> Pa </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Humidity:</div>
+            <div class="d_t_it" id="humID">0</div>
+            <div class="d_t_it"> % </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Voltage:</div>
+            <div class="d_t_it" id="volID"> 0 </div>
+            <div class="d_t_it"> V </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Current:</div>
+            <div class="d_t_it" id="curID"> 0 </div>
+            <div class="d_t_it"> A </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">ShuntVolt</div>
+            <div class="d_t_it" id="sunvID"> 0 </div>
+            <div class="d_t_it"> V </div>
         </div>
         <div class="d_t">
-            <div class="d_t_it">name</div>
-            <div class="d_t_it d_t_v"> 1000023 </div>
-            <div class="d_t_it"> m/s </div>
+            <div class="d_t_it">Power</div>
+            <div class="d_t_it" id="pwrID"> 0 </div>
+            <div class="d_t_it"> W </div>
         </div>
         <div class="d_t">
             <div class="d_t_it">name</div>
@@ -154,13 +160,17 @@
         </div>
 
     </div>
+
+    <div class="f_w">
+        <form id="form1">
+            <input type="text" name="name" >
+            <input type="submit" value="send" >
+        </form>
+    </div>
+
 </body>
 
 <script src="jquery-3.7.1.min.js"></script>
-<script>
-    $(document).ready(function () { console.log('mama') });
-    
-</script>
 <script src="src.js"></script>
 
 </html>

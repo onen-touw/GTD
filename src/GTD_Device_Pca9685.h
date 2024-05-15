@@ -1,3 +1,4 @@
+#pragma once
 #include "GTD_Device_Pca9685_Config.h"
 
 class GTD_Device_Pca9685
@@ -7,7 +8,7 @@ public:
 
     GTD_Device_Pca9685(const uint8_t addr) : _i2caddr(addr) {}
 
-    bool begin(uint8_t prescale = 0, TwoWire &tw)
+    bool begin(TwoWire &tw, uint8_t prescale = 0)
     {
         if (i2c_dev)
             delete i2c_dev;

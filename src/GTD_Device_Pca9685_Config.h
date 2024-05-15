@@ -1,4 +1,5 @@
 
+#pragma once
 #include "GTD_I2C_Minimal.h"
 
 // REGISTER ADDRESSES

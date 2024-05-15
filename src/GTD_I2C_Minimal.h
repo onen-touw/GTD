@@ -1,6 +1,7 @@
+#pragma once
 #include "GTD_config.h"
 
-///< The class which defines how we will talk to this device over I2C
+
 class GTD_I2C_Minimal
 {
 public:
